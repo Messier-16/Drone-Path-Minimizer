@@ -1,0 +1,62 @@
+// given a set of boundary points with x values and y values stored in lists xpoints and ypoints respectively,
+// where the points are in clockwise order:
+
+
+function rectmin with parameters (xpoints,ypoints):
+
+  length = length(xpoints)
+  
+  // compute centroid: average of x values and y values for (cx,cy)
+  cx = sum(xpoints)/length
+  cy = sum(ypoints)/length
+  
+  // shift polygon to (0,0)
+  for each i in xpoints:
+    i = i-cx
+  for each j in ypoints:
+    j = j-cy
+   
+  // compute angles of each edge with the x-axis
+  angles = []
+  for k in range(0,length):
+    slope = (ypoints[k+1]-ypoints[k])/(xpoints[k+1]-xpoints[k])
+    angle = arctan(slope)
+    add angle to angles
+    
+  // include angle of the edge between point 1 and the last point
+    angle = (ypoints[length]-ypoints[0])/(xpoints[length]-xpoints[0])
+    add angle to angles
+    
+  // rotate polygon to each degree measure and compute each minimum rectangle
+  rectangles = []
+  for each angle in angles:
+    for each z in range (0,length):
+      xpoints[z] = xpoints[z]*cos(angle) - ypoints[z]*sin(angle)
+      ypoints[z] = xpoints[z]*sin(angle) + ypoints[z]*cos(angle)
+    rect1 = [min(xpoints), min(ypoints)]
+    rect2 = [max(xpoints), max(ypoints)]
+    rect = [rect1,rect2]
+    add rect to rectangles
+    
+  // compute area of each rectangle.
+  // rectangles[0][0][0] would give the x-value of the bottom corner of the first rectangle, for example.  
+  rectareas = []
+  for every a in range(0,length(rectangles):
+    width = rectangles[a][0][0]-rectangles[a][1][0]
+    height = rectangles[a][0][1]-rectangles[a][1][1]
+    area = absolute value of (width*height)
+    add area to rectareas
+   
+  // find the minimum area rectangle:
+  i = index of min(rectareas)
+  grossrect = rectangles[i]
+  
+  //rotate and shift it back to the original coordinates of the polygon
+  x1 = grossrect[0][0] = grossrect[0][0]*cos(angle[i]) - grossrect[0][1]*sin(angle[i])
+  y1 = grossrect[0][1] = grossrect[0][0]*sin(angle[i]) + grossrect[0][1]*cos(angle[i])
+  x2 = grossrect[1][0] = grossrect[1][0]*cos(angle[i]) - grossrect[1][1]*sin(angle[i])
+  y2 = grossrect[1][1] = grossrect[1][0]*cos(angle[i]) - grossrect[1][1]*sin(angle[i])
+  
+  //return the coordinates of the bottom left and top right corner of the best rectangle:
+  finalrect = [[x1,y1][x2,y2]]
+  return finalrect
