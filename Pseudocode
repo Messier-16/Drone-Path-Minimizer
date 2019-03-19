@@ -52,10 +52,10 @@ function rectmin with parameters (xpoints,ypoints):
   grossrect = rectangles[i]
   
   //rotate and shift it back to the original coordinates of the polygon
-  x1 = grossrect[0][0] = grossrect[0][0]*cos(angle[i]) - grossrect[0][1]*sin(angle[i])
-  y1 = grossrect[0][1] = grossrect[0][0]*sin(angle[i]) + grossrect[0][1]*cos(angle[i])
-  x2 = grossrect[1][0] = grossrect[1][0]*cos(angle[i]) - grossrect[1][1]*sin(angle[i])
-  y2 = grossrect[1][1] = grossrect[1][0]*cos(angle[i]) - grossrect[1][1]*sin(angle[i])
+  x1 = grossrect[0][0] = grossrect[0][0]*cos(-angle[i]) - grossrect[0][1]*sin(-angle[i])
+  y1 = grossrect[0][1] = grossrect[0][0]*sin(-angle[i]) + grossrect[0][1]*cos(-angle[i])
+  x2 = grossrect[1][0] = grossrect[1][0]*cos(-angle[i]) - grossrect[1][1]*sin(-angle[i])
+  y2 = grossrect[1][1] = grossrect[1][0]*cos(-angle[i]) - grossrect[1][1]*sin(-angle[i])
   
   //return the coordinates of the bottom left and top right corner of the best rectangle:
   finalrect = [[x1,y1][x2,y2]]
