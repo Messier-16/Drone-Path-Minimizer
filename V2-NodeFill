@@ -1,0 +1,9 @@
+def NodeFill(xpoints,ypoints,FOVx,FOVy):
+  length=len(xpoints)
+  rect1=[min(xpoints),min(ypoints)]
+  rect2=[max(xpoints),max(ypoints)]
+  centroid=[sum(xpoints)/length,sum(ypoints)/length]
+  
+  
+  
+  
