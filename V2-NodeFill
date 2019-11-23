@@ -1,9 +1,66 @@
-def NodeFill(xpoints,ypoints,FOVx,FOVy):
-  length=len(xpoints)
-  rect1=[min(xpoints),min(ypoints)]
-  rect2=[max(xpoints),max(ypoints)]
-  centroid=[sum(xpoints)/length,sum(ypoints)/length]
-  
-  
-  
-  
+import math
+
+class Point():
+    points = []
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.val = [x,y]
+        Point.points.append(self)
+    def distance(self, other):
+        return math.sqrt((self.x-other.x)**2 + (self.y-other.y)**2)
+
+# routine for performing the "point in polygon" inclusion test
+
+# Copyright 2001, softSurfer (www.softsurfer.com)
+# This code may be freely used and modified for any purpose
+# providing that this copyright notice is included with it.
+# SoftSurfer makes no warranty for this code, and cannot be held
+# liable for any real or imagined damage resulting from its use.
+# Users of this code must verify correctness for their application.
+
+# translated to Python by Maciej Kalisiak <mac@dgp.toronto.edu>
+
+#   a Point is represented as a tuple: (x,y)
+
+# insidepoly(): crossing number test for a point in a polygon
+#     Input:  P = a point,
+#             V[] = vertex points of a polygon
+#     Return: 0 = outside, 1 = inside
+# This code is patterned after [Franklin, 2000]
+#V is a list of points
+def InsidePoly(P, V):
+    P = [P.x,P.y]
+    V = [[p.x,p.y] for p in V]
+    cn = 0    # the crossing number counter
+    # repeat the first vertex at end
+    V = tuple(V[:])+(V[0],)
+    # loop through all edges of the polygon
+    for i in range(len(V)-1):   # edge from V[i] to V[i+1]
+        if ((V[i][1] <= P[1] and V[i+1][1] > P[1])   # an upward crossing
+            or (V[i][1] > P[1] and V[i+1][1] <= P[1])):  # a downward crossing
+            # compute the actual edge-ray intersect x-coordinate
+            vt = (P[1] - V[i][1]) / float(V[i+1][1] - V[i][1])
+            if P[0] < V[i][0] + vt * (V[i+1][0] - V[i][0]): # P[0] < intersect
+                cn += 1  # a valid crossing of y=P[1] right of P[0]
+    return cn % 2   # 0 if even (out), and 1 if odd (in)
+
+def FlatRect(V):
+    xpoints, ypoints = [p.x for p in V], [p.y for p in V]
+    return [[min(xpoints),min(ypoints)],[max(xpoints),max(ypoints)]]
+
+# V must be a list of points of the vertices of the polygon listed in clockwise order.
+# ex. V = [[1,2],[2,3],[4,5]]
+# FOV is a list with dimensions of the camera field of view
+# ex. FOV = [10,20]
+
+def NodeFill(V,FOV,rect):
+    xpoints, ypoints = [p.x for p in V], [p.y for p in V]
+    rect1, rect2 = rect[0], rect[1]
+    marker = rect1
+    while InsidePoly(marker.val,V):
+        
+
+
+
+
