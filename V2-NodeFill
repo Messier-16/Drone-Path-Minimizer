@@ -47,7 +47,7 @@ def InsidePoly(P, V):
 
 def FlatRect(V):
     xpoints, ypoints = [p.x for p in V], [p.y for p in V]
-    return [[min(xpoints),min(ypoints)],[max(xpoints),max(ypoints)]]
+    return [Point(min(xpoints),min(ypoints)),Point(max(xpoints),max(ypoints))]
 
 # V must be a list of points of the vertices of the polygon listed in clockwise order.
 # ex. V = [[1,2],[2,3],[4,5]]
